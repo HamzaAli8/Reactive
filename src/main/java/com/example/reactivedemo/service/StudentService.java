@@ -26,7 +26,6 @@ public class StudentService {
     public Flux<Student> saveAll(String... names) {
         final Flux<Student> reservationFlux = Flux.fromArray(names)
                 .map(name -> new Student(null, name))
-                .delayElements(Duration.ofSeconds(3))
                 .doOnNext(r -> Assert.isTrue(isNameValid(r), "the first letter must be uppercase"))
                 .flatMap(this.studentRepository::save);
 

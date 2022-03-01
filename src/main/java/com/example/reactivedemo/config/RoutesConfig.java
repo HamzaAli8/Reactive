@@ -1,5 +1,6 @@
 package com.example.reactivedemo.config;
 
+import com.example.reactivedemo.handlers.StudentHandler;
 import com.example.reactivedemo.models.Student;
 import com.example.reactivedemo.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,13 +20,9 @@ public class RoutesConfig {
     StudentService studentService;
 
     @Bean
-    public RouterFunction<ServerResponse> router(){
+    public RouterFunction<ServerResponse> router(StudentHandler studentHandler){
 
-        return route().GET("/students-route", request ->
-                ok()
-                        .contentType(MediaType.TEXT_EVENT_STREAM)
-                        .body(studentService.getAllStudents(), Student.class)).build();
+        return route().GET("/students-route", studentHandler::getAll)
+                .GET("/student/{id}",studentHandler::getStudent).build();
     }
-
-
 }
