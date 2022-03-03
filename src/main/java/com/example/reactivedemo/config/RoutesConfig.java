@@ -23,6 +23,10 @@ public class RoutesConfig {
     public RouterFunction<ServerResponse> router(StudentHandler studentHandler){
 
         return route().GET("/students-route", studentHandler::getAll)
-                .GET("/student/{id}",studentHandler::getStudent).build();
+                .GET("/student/{id}",studentHandler::getStudent)
+                .POST("/students", studentHandler::addNewStudent)
+                .PUT("/students/{id}", studentHandler::updateStudent)
+                .DELETE("/students/{id}", studentHandler::deleteStudent).build();
+
     }
 }
